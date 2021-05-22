@@ -37,7 +37,13 @@
 #pragma mark - Third
 
 - (NSString *)getDayName:(NSDate*) date {
-    return nil;
+    
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];                // allocate and initialize memory for date formatter
+    
+    dateFormatter.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"ru_RU"];    // set language to Russian
+    [dateFormatter setDateFormat:@"EE"];                                            // require shortened week day string
+    
+    return [dateFormatter stringFromDate:date];                                     // return shortened week day word
 }
 
 #pragma mark - Fourth
