@@ -22,7 +22,16 @@
 #pragma mark - Second
 
 - (long)dayFromDate:(NSString *)date {
-    return 0;
+    
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];        // allocate and initialize memory for date formatter
+    [dateFormatter setDateFormat:@"yyyy-MM-DDEEEEHH:mm:ssZ"];               // use the format of the given string
+    
+    NSDate *day = [dateFormatter dateFromString:date];                      // convert given string to date
+    
+    NSCalendar *calendar = [NSCalendar currentCalendar];                    // use calendar
+    NSDateComponents *components = [calendar components:NSCalendarUnitDay fromDate:day];    // find day component of the calendar
+    
+    return [components day];                                                // return the day of the given string
 }
 
 #pragma mark - Third
