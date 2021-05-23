@@ -49,7 +49,33 @@
 #pragma mark - Fourth
 
 - (BOOL)isDateInThisWeek:(NSDate *)date {
-    return NO;
+    
+    NSCalendar *calendar = [NSCalendar currentCalendar];                            // take current calendar
+    NSDateFormatter *weekDayFormatter = [[NSDateFormatter alloc] init];             // allocate and initialize memory for date formatter
+    [weekDayFormatter setDateFormat:@"EEE"];                                        // mind the day of the week
+    
+    // set date components for the days of this week
+    NSDateComponents *thisWeekComponent = [calendar components:NSCalendarUnitWeekOfYear | NSCalendarUnitWeekday fromDate:[NSDate date]];
+    NSUInteger thisWeekNumber = [thisWeekComponent weekOfYear];
+    
+    // set date components for the day asked to compare with this week
+    NSDateComponents *askedWeekComponent = [calendar components:NSCalendarUnitWeekOfYear | NSCalendarUnitWeekday fromDate:date];
+    NSUInteger askedWeekNumber = [askedWeekComponent weekOfYear];
+    
+    if ([[weekDayFormatter stringFromDate:[NSDate date]]  isEqual: @"Sun"]) {       // Sunday is NOT next week's day in USSR countries
+        thisWeekNumber = thisWeekNumber - 1;                                        // include Sunday to the previous week for this week
+    }
+    
+    if ([[weekDayFormatter stringFromDate:date]  isEqual: @"Sun"]) {                // Sunday is NOT next week's day in USSR countries
+        askedWeekNumber = askedWeekNumber - 1;                                      // include Sunday to the previous week for the asked day
+    }
+    
+    if (thisWeekNumber == askedWeekNumber) {                // if day is inside this week (from Monday to Sunday)
+        return YES;                                         // return YES
+    }
+    else {                                                  // if day is NOT inside this week (from Monday to Sunday)
+        return NO;                                          // return NO
+    }
 }
 
 @end
